@@ -5,19 +5,39 @@ const dpr = window.devicePixelRatio || 1
 canvas.width = 1024 * dpr
 canvas.height = 576 * dpr
 
+const MAP_COLS = 28
+const MAP_ROWS = 28
+const MAP_WIDTH = 16 * MAP_COLS
+const MAP_HEIGHT = 16 * MAP_ROWS
+
+const MAP_SCALE = dpr + 3
+const VIEWPORT_WIDTH = canvas.width / MAP_SCALE
+const VIEWPORT_HEIGHT = canvas.height / MAP_SCALE
+
+const VIWEPORT_CENTER_X = VIEWPORT_WIDTH / 2
+const VIWEPORT_CENTER_Y = VIEWPORT_HEIGHT / 2;
+
+const MAX_SCROLL_X = MAP_WIDTH - VIEWPORT_WIDTH
+const MAX_SCROLL_Y = MAP_HEIGHT - VIEWPORT_HEIGHT
+// console.log(VIWEPORT_CENTER_X);
+// console.log(MAX_SCROLL_X);
+
+// console.log(VIEWPORT_WIDTH);
+
+
 const layersData = {
-   l_Terrain: l_Terrain,
-   l_Front_Renders: l_Front_Renders,
-   l_Trees_1: l_Trees_1,
-   l_Trees_2: l_Trees_2,
-   l_Trees_3: l_Trees_3,
-   l_Trees_4: l_Trees_4,
-   l_Landscape_Decorations: l_Landscape_Decorations,
-   l_Landscape_Decorations_2: l_Landscape_Decorations_2,
-   l_Houses: l_Houses,
-   l_House_Decorations: l_House_Decorations,
-   l_Characters: l_Characters,
-   l_Collisions: l_Collisions,
+  l_Terrain: l_Terrain,
+  l_Front_Renders: l_Front_Renders,
+  l_Trees_1: l_Trees_1,
+  l_Trees_2: l_Trees_2,
+  l_Trees_3: l_Trees_3,
+  l_Trees_4: l_Trees_4,
+  l_Landscape_Decorations: l_Landscape_Decorations,
+  l_Landscape_Decorations_2: l_Landscape_Decorations_2,
+  l_Houses: l_Houses,
+  l_House_Decorations: l_House_Decorations,
+  l_Characters: l_Characters,
+  l_Collisions: l_Collisions,
 };
 
 const tilesets = {
@@ -141,12 +161,24 @@ function animate(backgroundCanvas) {
   player.handleInput(keys)
   player.update(deltaTime, collisionBlocks)
 
+
+  const horizontalScrollDistance = Math.min(Math.max(0, player.center.x - VIWEPORT_CENTER_X), MAX_SCROLL_X)
+  const verticalScrollDistance = Math.min(Math.max(0, player.center.y - VIWEPORT_CENTER_Y), MAX_SCROLL_Y)
+
+  // console.log(horizontalScrollDistance);
+
+
   // Render scene
   c.save()
-  c.scale(dpr, dpr)
+  c.scale(MAP_SCALE, MAP_SCALE)
+  c.translate(-horizontalScrollDistance, -verticalScrollDistance)
   c.clearRect(0, 0, canvas.width, canvas.height)
   c.drawImage(backgroundCanvas, 0, 0)
   player.draw(c)
+  // console.log(player.x);
+  // console.log(player.center);
+
+
   c.restore()
 
   requestAnimationFrame(() => animate(backgroundCanvas))
