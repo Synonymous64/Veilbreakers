@@ -1,0 +1,1 @@
+**Veilbreakers** is an action-adventure game where players, as Veilbreakers, explore a collapsing world guarded by ancient Veils.Journey through mystical landscapes, engage in magic-based combat, solve puzzles, and unravel secrets of a lost civilization. This repo holds the game’s code and assets—contributors welcome!
