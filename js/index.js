@@ -27,7 +27,6 @@ const MAX_SCROLL_Y = MAP_HEIGHT - VIEWPORT_HEIGHT
 
 const layersData = {
   l_Terrain: l_Terrain,
-  l_Front_Renders: l_Front_Renders,
   l_Trees_1: l_Trees_1,
   l_Trees_2: l_Trees_2,
   l_Trees_3: l_Trees_3,
@@ -39,6 +38,10 @@ const layersData = {
   l_Characters: l_Characters,
   l_Collisions: l_Collisions,
 };
+
+const frontRenderLayers = {
+  l_Front_Renders: l_Front_Renders,
+}
 
 const tilesets = {
   l_Terrain: { imageUrl: './images/terrain.png', tileSize: 16 },
@@ -98,7 +101,7 @@ const renderLayer = (tilesData, tilesetImage, tileSize, context) => {
   })
 }
 
-const renderStaticLayers = async () => {
+const renderStaticLayers = async (layersData) => {
   const offscreenCanvas = document.createElement('canvas')
   offscreenCanvas.width = canvas.width
   offscreenCanvas.height = canvas.height
